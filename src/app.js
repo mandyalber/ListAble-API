@@ -5,6 +5,8 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV, CLIENT_ORIGIN } = require('./config')
 const categoryRouter = require('./categories/categoryRouter')
+const listRouter = require('./lists/listRouter')
+const itemRouter = require('./items/itemRouter')
 
 const app = express()
 
@@ -16,9 +18,9 @@ app.use(morgan(morganOption))
 app.use(helmet())
 
 app.use(
-  cors({
+  cors(/*{
       origin: CLIENT_ORIGIN
-  })
+  }*/)
 )
 
 app.get('/', (req, res) => {
@@ -26,6 +28,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/category', categoryRouter)
+app.use('/api/list', listRouter)
+app.use('/api/item', itemRouter)
 
 app.use(function errorHandler(error, req, res, next) {
   let response

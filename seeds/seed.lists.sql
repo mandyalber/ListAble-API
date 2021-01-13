@@ -1,7 +1,7 @@
-INSERT INTO lists ("id", "name", "categoryId") 
+INSERT INTO lists ("name", "categoryId") 
 VALUES 
-(1,'Sunday',1),
-(2,'Walmart',2),
-(3,'Summer Reading List',3),
-(4, 'Costco',2);
+('Sunday',1),
+('Walmart',2),
+('Summer Reading List',3),
+('Costco',2);
 
