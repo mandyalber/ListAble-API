@@ -41,4 +41,48 @@ itemRouter
             .catch(next)
     })
 
+itemRouter
+    .route('/:itemId')
+    .all((req, res, next) => {
+        if (isNaN(parseInt(req.params.itemId))) {
+            return res.status(400)
+                .json({ error: { message: 'invalid id' } })
+        }
+        itemService.getItemById(req.app.get('db'), req.params.itemId)
+            .then(item => {
+                if (!item) {
+                    return res.status(404)
+                        .json({ error: { message: 'item does not exist' } })
+                }
+                res.item = item
+                next()
+            })
+            .catch(next)
+    })
+    .get((req, res, next) => {
+        res.json(serializeItem(item))
+    })
+    .patch(jsonParser, (req, res, next) => {
+        const { name, complete } = req.body
+        const updatedItem = { name, complete }
+        console.log(req.body)
+        if (!name && !complete) {
+            return res.status(400)
+                .json({ error: { message: 'request must contain either name or complete fields to update' } })
+        }
+        itemService.updateItem(req.app.get('db'), req.params.itemId, updatedItem)
+            .then(updatedItem => {
+                res.status(200).json(serializeItem(updatedItem))
+            })
+            .catch(next)
+    })
+    .delete((req, res, next) => {
+        itemService.deleteItem(req.app.get('db'), req.params.itemId)
+            .then(item => {
+                res.status(204).end()
+            })
+            .catch(next)
+    })
+
+
 module.exports = itemRouter
