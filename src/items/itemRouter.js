@@ -66,21 +66,22 @@ itemRouter
     .patch(jsonParser, (req, res, next) => {
         const { name, complete } = req.body
         const updatedItem = { name, complete }
+        console.log('item to be updated ', updatedItem)
 
-        if (!name && !complete) {
+        if (name === undefined && complete === undefined) {
             return res.status(400)
                 .json({ error: { message: 'request must contain either name or complete fields to update' } })
         }
         itemService.updateItem(req.app.get('db'), req.params.itemId, updatedItem)
             .then(updatedItem => { 
                 res.status(200).json(serializeItem(updatedItem[0]))
-                //console.log('updatedItem ', updatedItem[0])
+                console.log('updated item ', updatedItem[0])
             })
             .catch(next)
     })
     .delete((req, res, next) => {
         itemService.deleteItem(req.app.get('db'), req.params.itemId)
-            .then(item => {
+            .then(numRowsAffected => {
                 res.status(204).end()
             })
             .catch(next)
