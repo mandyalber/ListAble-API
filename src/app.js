@@ -18,9 +18,9 @@ app.use(morgan(morganOption))
 app.use(helmet())
 
 app.use(
-  cors(/*{
+  cors({
       origin: CLIENT_ORIGIN
-  }*/)
+  })
 )
 
 app.get('/', (req, res) => {
