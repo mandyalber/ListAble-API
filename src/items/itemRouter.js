@@ -8,7 +8,8 @@ const jsonParser = express.json()
 const serializeItem = (item) => ({
     id: item.id,
     name: xss(item.name),
-    listId: item.listId
+    listId: item.listId,
+    complete: item.complete
 })
 
 itemRouter
@@ -21,8 +22,8 @@ itemRouter
             .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const { name, listId } = req.body
-        const newItem = { name, listId }
+        const { name, listId, complete = false } = req.body
+        const newItem = { name, listId, complete }
 
         if (!name) {
             return res.status(400)
@@ -31,7 +32,7 @@ itemRouter
         if (!listId) {
             return res.status(400)
                 .json({ error: { message: 'missing list id in request body' } })
-        }
+        }       
 
         itemService.insertItem(req.app.get('db'), newItem)
             .then(item => {
@@ -60,19 +61,20 @@ itemRouter
             .catch(next)
     })
     .get((req, res, next) => {
-        res.json(serializeItem(item))
+        res.json(serializeItem(res.item))
     })
     .patch(jsonParser, (req, res, next) => {
         const { name, complete } = req.body
         const updatedItem = { name, complete }
-        console.log(req.body)
+
         if (!name && !complete) {
             return res.status(400)
                 .json({ error: { message: 'request must contain either name or complete fields to update' } })
         }
         itemService.updateItem(req.app.get('db'), req.params.itemId, updatedItem)
-            .then(updatedItem => {
-                res.status(200).json(serializeItem(updatedItem))
+            .then(updatedItem => { 
+                res.status(200).json(serializeItem(updatedItem[0]))
+                //console.log('updatedItem ', updatedItem[0])
             })
             .catch(next)
     })

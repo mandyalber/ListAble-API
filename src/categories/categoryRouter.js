@@ -31,7 +31,7 @@ categoryRouter
         categoryService.insertCategory(req.app.get('db'), newCat)
             .then(cat => {
                 res.status(201).location(path.posix.join(req.originalUrl, `/${cat.id}`))
-                    .json(serializeCat(cat))
+                    .json(serializeCategory(cat))
             })
             .catch(next)
     })
@@ -55,7 +55,7 @@ categoryRouter
             .catch(next)
     })
     .get((req, res, next) => {
-        res.json(serializeCategory(category))
+        res.json(serializeCategory(res.category))
     })
     .patch(jsonParser, (req, res, next) => {
         const { name } = req.body
@@ -67,7 +67,7 @@ categoryRouter
         }
         categoryService.updateCategory(req.app.get('db'), req.params.categoryId, updatedCategory)
             .then(updatedCategory => {
-                res.status(200).json(serializeCategory(updatedCategory))
+                res.status(200).json(serializeCategory(updatedCategory[0]))
             })
             .catch(next)
     })

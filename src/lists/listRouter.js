@@ -60,7 +60,7 @@ listRouter
             .catch(next)
     })
     .get((req, res, next) => {
-        res.json(serializeList(list))
+        res.json(serializeList(res.list))
     })
     .patch(jsonParser, (req, res, next) => {
         const { name } = req.body
@@ -72,7 +72,7 @@ listRouter
         }
         listService.updateList(req.app.get('db'), req.params.listId, updatedList)
             .then(updatedList => {
-                res.status(200).json(serializeList(updatedList))
+                res.status(200).json(serializeList(updatedList[0]))
             })
             .catch(next)
     })
