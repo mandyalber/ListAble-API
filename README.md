@@ -1,26 +1,70 @@
-# Express Boilerplate!
+# ListAble Server
 
-This is a boilerplate project used for starting new projects!
+This is the server for the ListAble client hosted at https://listable.vercel.app/
 
-## Set up
+## Link to live app
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+https://quiet-stream-59097.herokuapp.com/api
+    
+## Screenshots of the app
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+#### Landing Page
+![Landing Page Screenshot](src/images/screenshots/landing.PNG?raw=true "Landing Page")
 
-## Scripts
+#### Dashboard
+![Dashboard Screenshot](src/images/screenshots/dashboard.PNG?raw=true "Dashboard")
 
-Start the application `npm start`
+#### List Detail
+![List Detail Screenshot](src/images/screenshots/list.PNG?raw=true "List Detail")
+    
+## Summary section
 
-Start nodemon for the application `npm run dev`
+This app allows users to create lists organized by category. The user also has the ability to edit and delete categories and lists, and can add, edit and mark items complete, as well as search for a specific item or list.
+    
+## Technology used
 
-Run the tests `npm test`
+This app was built using React.js and Vanilla CSS for the client and Node.js, Express and Postgres for the server.
 
-## Deploying
+## API Documentation
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+The API supports the following requests:
+
+GET 
+    /category 
+
+    /category/:categoryId
+
+    /list
+
+    /list/:listId
+
+    /item
+
+    /item/:itemId
+
+
+POST
+    /category
+
+    /list
+
+    /item
+
+
+PATCH
+    /category/:categoryId
+
+    /list/:listId
+
+    /item/:itemId
+
+
+DELETE
+    /category/:categoryId
+
+    /list/:listId
+
+    /item/:itemId
+
+
+
