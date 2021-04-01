@@ -18,13 +18,17 @@ app.use(morgan(morganOption))
 app.use(helmet())
 
 app.use(
-  cors({
+  cors(/*{
       origin: CLIENT_ORIGIN
-  })
+  }*/)
 )
 
 app.get('/', (req, res) => {
   res.json('Server for ListAble Client')
+})
+
+app.get('/api', (req, res) => {
+  res.json('API for ListAble Client')
 })
 
 app.use('/api/category', categoryRouter)
@@ -34,7 +38,8 @@ app.use('/api/item', itemRouter)
 app.use(function errorHandler(error, req, res, next) {
   let response
   if (NODE_ENV === 'production') {
-    response = { error: { message: 'server error' } }
+    console.error(error)
+    response = { message: error.message, error  }
   } else {
     console.error(error)
     response = { message: error.message, error }
