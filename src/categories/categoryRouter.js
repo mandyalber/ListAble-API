@@ -13,9 +13,11 @@ const serializeCategory = (cat) => ({
 categoryRouter
     .route('/')
     .get((req, res, next) => {
+        console.log('get all cat ran')
         categoryService.getAllCategories(req.app.get('db'))
             .then(cats => {
                 res.json(cats)
+                console.log('json response ran')
             })
             .catch(next)
     })
